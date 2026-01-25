@@ -3,9 +3,9 @@
 struct Student 
 {
     int Roll_Number;
-    char Full_Name[50];
-    char Father_Name[50];
-    char Mother_Name[50];
+    char Full_Name[20];
+    char Father_Name[20];
+    char Mother_Name[20];
     int age;
     char Gender[10];
     char Email[50];
@@ -29,21 +29,21 @@ void addStudent()
     printf("Enter Roll Number : ");
     scanf("%d", &s.Roll_Number);
     printf("Enter Full Name : ");
-    scanf(" %s", s.Full_Name);  
+    fgets(s.Full_Name, sizeof(s.Full_Name), stdin);
     printf("Enter Father Name : ");
-    scanf("%d", &s.Father_Name);
+    fgets(s.Father_Name, sizeof(s.Father_Name), stdin);
     printf("Enter Mother Name : ");
-    scanf(" %s", s.Mother_Name);
+    fgets(s.Mother_Name, sizeof(s.Mother_Name), stdin);
     printf("Enter Age : ");
     scanf("%d", &s.age);
     printf("Enter Gender : ");
-    scanf(" %s", s.Gender);
+    fgets(s.Gender, sizeof(s.Gender), stdin);
     printf("Enter Email : ");
-    scanf(" %s", s.Email);
+    fgets(s.Email, sizeof(s.Email), stdin);
     printf("Enter Phone Number : ");
     scanf("%ld", &s.Phone_Number);
     printf("Enter Address : ");
-    scanf(" %s", s.Address);
+    fgets(s.Address, sizeof(s.Address), stdin);
 
     fwrite(&s, sizeof(s), 1, fp);
     fclose(fp);
