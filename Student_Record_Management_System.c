@@ -1,11 +1,14 @@
-// STUDENT MANAGEMENT RECORDS //
+// STUDENT RECORD MANAGEMENT SYSTEM
+
 #include <stdio.h>
-struct Student 
+
+// student structure
+struct Student
 {
     int Roll_Number;
-    char Full_Name[20];
-    char Father_Name[20];
-    char Mother_Name[20];
+    char Full_Name[50];
+    char Father_Name[50];
+    char Mother_Name[50];
     int age;
     char Gender[10];
     char Email[50];
@@ -15,12 +18,19 @@ struct Student
 
 FILE *fp;
 
-void addStudent() 
+/* -------- helper function to clear input buffer -------- */
+void clearInputBuffer()
 {
-    fp = fopen("students.dat", "ab");
-    struct Student s;
+    while (getchar() != '\n');
+}
 
-    if (fp == NULL) 
+/* ---------------- ADD STUDENT ---------------- */
+void addStudent()
+{
+    struct Student s;
+    fp = fopen("students.dat", "ab");
+
+    if (fp == NULL)
     {
         printf("Error opening file!\n");
         return;
@@ -28,20 +38,31 @@ void addStudent()
 
     printf("Enter Roll Number : ");
     scanf("%d", &s.Roll_Number);
+    clearInputBuffer();
+
     printf("Enter Full Name : ");
     fgets(s.Full_Name, sizeof(s.Full_Name), stdin);
+
     printf("Enter Father Name : ");
     fgets(s.Father_Name, sizeof(s.Father_Name), stdin);
+
     printf("Enter Mother Name : ");
     fgets(s.Mother_Name, sizeof(s.Mother_Name), stdin);
+
     printf("Enter Age : ");
     scanf("%d", &s.age);
+    clearInputBuffer();
+
     printf("Enter Gender : ");
     fgets(s.Gender, sizeof(s.Gender), stdin);
+
     printf("Enter Email : ");
     fgets(s.Email, sizeof(s.Email), stdin);
+
     printf("Enter Phone Number : ");
     scanf("%ld", &s.Phone_Number);
+    clearInputBuffer();
+
     printf("Enter Address : ");
     fgets(s.Address, sizeof(s.Address), stdin);
 
@@ -51,221 +72,213 @@ void addStudent()
     printf("Record added successfully!\n");
 }
 
-void displayStudents() 
+/* ---------------- DISPLAY STUDENTS ---------------- */
+void displayStudents()
 {
-    fp = fopen("students.dat", "rb");
     struct Student s;
-
-     if (fp == NULL) 
-    {
-      printf("No records found!\n");
-      return;
-    }
-
-    printf("\n--- Student Records ---\n");
-    while (fread(&s, sizeof(s), 1, fp)) 
-    {
-        printf("Roll Number : %d\n", s.Roll_Number);
-        printf("Full Name : %s\n", s.Full_Name);
-        printf("Father Name : %s\n", s.Father_Name);
-        printf("Mother Name : %s\n", s.Mother_Name);
-        printf("Age : %d\n", s.age);
-        printf("Gender : %s\n", s.Gender);
-        printf("Email : %s\n", s.Email);
-        printf("Phone Number : %ld\n", s.Phone_Number);
-        printf("Address : %s\n", s.Address);
-        printf("-----------------------\n");
-
-    }
-    fclose(fp);
-}
-
-void searchStudent() 
-{
     fp = fopen("students.dat", "rb");
-    struct Student s;
-    int id, found = 0;
 
-    if (fp == NULL) 
+    if (fp == NULL)
     {
         printf("No records found!\n");
         return;
     }
 
-    printf("Enter Roll number to search: ");
-    scanf("%d", &id);
-    
-
-    while (fread(&s, sizeof(s), 1, fp)) 
+    printf("\n--- Student Records ---\n");
+    while (fread(&s, sizeof(s), 1, fp))
     {
-        if (s.Roll_Number == id) 
-        {
-            printf("\nRecord Found:\n");
-
-            printf("Roll Number : %d\n", s.Roll_Number);
-            printf("Full Name : %s\n", s.Full_Name);
-            printf("Father Name : %s\n", s.Father_Name);
-            printf("Mother Name : %s\n", s.Mother_Name);
-            printf("Age : %d\n", s.age);
-            printf("Gender : %s\n", s.Gender);
-            printf("Email : %s\n", s.Email);
-            printf("Phone Number : %ld\n", s.Phone_Number);
-            printf("Address : %s\n", s.Address);
-
-            found = 1;
-            break;
-        }
+        printf("Roll Number : %d\n", s.Roll_Number);
+        printf("Full Name   : %s", s.Full_Name);
+        printf("Father Name : %s", s.Father_Name);
+        printf("Mother Name : %s", s.Mother_Name);
+        printf("Age         : %d\n", s.age);
+        printf("Gender      : %s", s.Gender);
+        printf("Email       : %s", s.Email);
+        printf("Phone       : %ld\n", s.Phone_Number);
+        printf("Address     : %s", s.Address);
+        printf("---------------------------\n");
     }
-        if (found == 0)
-        {
-        printf("Record not found \n");
-        }
 
     fclose(fp);
-       
 }
 
-void updateStudent() 
+/* ---------------- SEARCH STUDENT ---------------- */
+void searchStudent()
 {
-    fp = fopen("students.dat", "rb");
-    struct Student arr[100]; 
-    int count = 0, i, id, found = 0;
+    struct Student s;
+    int id, found = 0;
 
-     if (fp == NULL) 
-     {
-        printf("No records found \n");
+    fp = fopen("students.dat", "rb");
+    if (fp == NULL)
+    {
+        printf("No records found!\n");
         return;
     }
-    while (fread(&arr[count], sizeof(struct Student), 1, fp)) 
-    {
-        count++;
-    }
-    fclose(fp);
 
-    printf("Enter Roll number to update: ");
+    printf("Enter Roll Number to search: ");
     scanf("%d", &id);
 
-     for (i = 0; i < count; i++) 
+    while (fread(&s, sizeof(s), 1, fp))
     {
-        if (arr[i].Roll_Number == id) 
+        if (s.Roll_Number == id)
         {
-            printf("Enter new Full Name : ");
-            scanf(" %s", arr[i].Full_Name);
-            printf("Enter new Father Name : ");
-            scanf(" %s", arr[i].Father_Name);
-            printf("Enter new Mother Name : ");
-            scanf(" %s", arr[i].Mother_Name);
-            printf("Enter new Age : ");
-            scanf("%d", &arr[i].age);
-            printf("Enter new Gender : ");
-            scanf(" %s", arr[i].Gender);
-            printf("Enter new Email : ");   
-            scanf(" %s", arr[i].Email);
-            printf("Enter new Phone Number : ");
-            scanf("%ld", &arr[i].Phone_Number);
-            printf("Enter new Address : ");
-            scanf(" %s", arr[i].Address);
-
+            printf("\nRecord Found:\n");
+            printf("Roll Number : %d\n", s.Roll_Number);
+            printf("Full Name   : %s", s.Full_Name);
+            printf("Father Name : %s", s.Father_Name);
+            printf("Mother Name : %s", s.Mother_Name);
+            printf("Age         : %d\n", s.age);
+            printf("Gender      : %s", s.Gender);
+            printf("Email       : %s", s.Email);
+            printf("Phone       : %ld\n", s.Phone_Number);
+            printf("Address     : %s", s.Address);
             found = 1;
             break;
         }
     }
-    if (found==1) 
-    {
-      fp = fopen("students.dat", "wb"); 
-      fwrite(arr, sizeof(struct Student), count, fp);
-      fclose(fp);
-      printf("Record Updated!\n");
-    } 
-    else 
-    {
-      printf("Record not found!\n");
-    }
+
+    if (!found)
+        printf("Record not found!\n");
+
+    fclose(fp);
 }
 
-void deleteStudent() 
+/* ---------------- UPDATE STUDENT ---------------- */
+void updateStudent()
 {
+    struct Student s;
+    FILE *temp;
+    int id, found = 0;
+
     fp = fopen("students.dat", "rb");
-    struct Student arr[100];
-    int count = 0, i, id, found = 0;
+    temp = fopen("temp.dat", "wb");
 
-    while (fread(&arr[count], sizeof(struct Student), 1, fp)) 
+    if (fp == NULL)
     {
-        count++;
+        printf("No records found!\n");
+        return;
     }
-    fclose(fp);
 
-    printf("Enter Roll number to delete: ");
+    printf("Enter Roll Number to update: ");
+    scanf("%d", &id);
+    clearInputBuffer();
+
+    while (fread(&s, sizeof(s), 1, fp))
+    {
+        if (s.Roll_Number == id)
+        {
+            printf("Enter New Full Name : ");
+            fgets(s.Full_Name, sizeof(s.Full_Name), stdin);
+
+            printf("Enter New Father Name : ");
+            fgets(s.Father_Name, sizeof(s.Father_Name), stdin);
+
+            printf("Enter New Mother Name : ");
+            fgets(s.Mother_Name, sizeof(s.Mother_Name), stdin);
+
+            printf("Enter New Age : ");
+            scanf("%d", &s.age);
+            clearInputBuffer();
+
+            printf("Enter New Gender : ");
+            fgets(s.Gender, sizeof(s.Gender), stdin);
+
+            printf("Enter New Email : ");
+            fgets(s.Email, sizeof(s.Email), stdin);
+
+            printf("Enter New Phone Number : ");
+            scanf("%ld", &s.Phone_Number);
+            clearInputBuffer();
+
+            printf("Enter New Address : ");
+            fgets(s.Address, sizeof(s.Address), stdin);
+
+            found = 1;
+        }
+        fwrite(&s, sizeof(s), 1, temp);
+    }
+
+    fclose(fp);
+    fclose(temp);
+
+    remove("students.dat");
+    rename("temp.dat", "students.dat");
+
+    if (found)
+        printf("Record updated successfully!\n");
+    else
+        printf("Record not found!\n");
+}
+
+/* ---------------- DELETE STUDENT ---------------- */
+void deleteStudent()
+{
+    struct Student s;
+    FILE *temp;
+    int id, found = 0;
+
+    fp = fopen("students.dat", "rb");
+    temp = fopen("temp.dat", "wb");
+
+    if (fp == NULL)
+    {
+        printf("No records found!\n");
+        return;
+    }
+
+    printf("Enter Roll Number to delete: ");
     scanf("%d", &id);
 
-  for (i = 0; i < count; i++) 
-  {
-    if (arr[i].Roll_Number == id) 
+    while (fread(&s, sizeof(s), 1, fp))
     {
-       found = 1;
-        for (int j = i; j < count - 1; j++) 
+        if (s.Roll_Number == id)
         {
-                arr[j] = arr[j + 1]; 
+            found = 1;
+            continue;
         }
-            count--;
-            break;
+        fwrite(&s, sizeof(s), 1, temp);
     }
-  }
- if (found==1) 
- {
-        fp = fopen("students.dat", "wb");
-        fwrite(arr, sizeof(struct Student), count, fp);
-        fclose(fp);
-        printf("Record Deleted!\n");
- } 
- else 
- {
-    printf("Record not found!\n");
- }
 
+    fclose(fp);
+    fclose(temp);
+
+    remove("students.dat");
+    rename("temp.dat", "students.dat");
+
+    if (found)
+        printf("Record deleted successfully!\n");
+    else
+        printf("Record not found!\n");
 }
 
-int main() 
+/* ---------------- MAIN ---------------- */
+int main()
 {
-  int ch;
-   
-  do 
-  {
-     printf("\n--- Student Record Management System ---\n");
-     printf("1. Add Student\n");
-     printf("2. Display Students\n");
-     printf("3. Search Student\n");
-     printf("4. Update Student\n");
-     printf("5. Delete Student\n");
-     printf("6. Exit\n");
-     printf("Enter your choice: ");
-     scanf("%d", &ch);
+    int choice;
 
-    switch (ch) 
+    do
     {
-     case 1: 
-     addStudent(); 
-     break;
-     case 2: 
-     displayStudents(); 
-     break;
-     case 3: 
-     searchStudent(); 
-     break;
-     case 4: 
-     updateStudent(); 
-     break;
-     case 5: 
-     deleteStudent(); 
-     break; 
-     case 6: 
-     printf("Exiting program.\n"); 
-     break;
-     default: 
-     printf("Invalid choice!\n");
-    }
+        printf("\n--- Student Record Management System ---\n");
+        printf("1. Add Student\n");
+        printf("2. Display Students\n");
+        printf("3. Search Student\n");
+        printf("4. Update Student\n");
+        printf("5. Delete Student\n");
+        printf("6. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
 
- } while (ch != 6);
+        switch (choice)
+        {
+        case 1: addStudent(); break;
+        case 2: displayStudents(); break;
+        case 3: searchStudent(); break;
+        case 4: updateStudent(); break;
+        case 5: deleteStudent(); break;
+        case 6: printf("Exiting program...\n"); break;
+        default: printf("Invalid choice!\n");
+        }
+    } while (choice != 6);
 
     return 0;
 }
