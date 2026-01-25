@@ -12,7 +12,7 @@ struct Student
     int age;
     char Gender[10];
     char Email[50];
-    long int Phone_Number;
+    char Phone_Number[15];
     char Address[100];
 };
 
@@ -60,8 +60,7 @@ void addStudent()
     fgets(s.Email, sizeof(s.Email), stdin);
 
     printf("Enter Phone Number : ");
-    scanf("%ld", &s.Phone_Number);
-    clearInputBuffer();
+    fgets(s.Phone_Number, sizeof(s.Phone_Number), stdin);
 
     printf("Enter Address : ");
     fgets(s.Address, sizeof(s.Address), stdin);
@@ -94,7 +93,7 @@ void displayStudents()
         printf("Age         : %d\n", s.age);
         printf("Gender      : %s", s.Gender);
         printf("Email       : %s", s.Email);
-        printf("Phone       : %ld\n", s.Phone_Number);
+        printf("Phone : %s\n", s.Phone_Number);
         printf("Address     : %s", s.Address);
         printf("---------------------------\n");
     }
@@ -130,7 +129,7 @@ void searchStudent()
             printf("Age         : %d\n", s.age);
             printf("Gender      : %s", s.Gender);
             printf("Email       : %s", s.Email);
-            printf("Phone       : %ld\n", s.Phone_Number);
+            printf("Phone       : %d\n", s.Phone_Number);
             printf("Address     : %s", s.Address);
             found = 1;
             break;
