@@ -2,7 +2,7 @@
 
 #include <stdio.h>
 
-// student structure
+
 struct Student
 {
     int Roll_Number;
@@ -18,13 +18,13 @@ struct Student
 
 FILE *fp;
 
-/* -------- helper function to clear input buffer -------- */
+
 void clearInputBuffer()
 {
     while (getchar() != '\n');
 }
 
-/* ---------------- ADD STUDENT ---------------- */
+
 void addStudent()
 {
     struct Student s;
@@ -72,7 +72,7 @@ void addStudent()
     printf("Record added successfully!\n");
 }
 
-/* ---------------- DISPLAY STUDENTS ---------------- */
+
 void displayStudents()
 {
     struct Student s;
@@ -102,7 +102,7 @@ void displayStudents()
     fclose(fp);
 }
 
-/* ---------------- SEARCH STUDENT ---------------- */
+
 void searchStudent()
 {
     struct Student s;
@@ -143,7 +143,7 @@ void searchStudent()
     fclose(fp);
 }
 
-/* ---------------- UPDATE STUDENT ---------------- */
+
 void updateStudent()
 {
     struct Student s;
@@ -210,7 +210,7 @@ void updateStudent()
         printf("Record not found!\n");
 }
 
-/* ---------------- DELETE STUDENT ---------------- */
+
 void deleteStudent()
 {
     struct Student s;
@@ -251,7 +251,7 @@ void deleteStudent()
         printf("Record not found!\n");
 }
 
-/* ---------------- MAIN ---------------- */
+
 int main()
 {
     int choice;
@@ -270,12 +270,18 @@ int main()
 
         switch (choice)
         {
-        case 1: addStudent(); break;
-        case 2: displayStudents(); break;
-        case 3: searchStudent(); break;
-        case 4: updateStudent(); break;
-        case 5: deleteStudent(); break;
-        case 6: printf("Exiting program...\n"); break;
+        case 1: addStudent(); 
+        break;
+        case 2: displayStudents(); 
+        break;
+        case 3: searchStudent(); 
+        break;
+        case 4: updateStudent(); 
+        break;
+        case 5: deleteStudent(); 
+        break;
+        case 6: printf("Exiting program...\n"); 
+        break;
         default: printf("Invalid choice!\n");
         }
     } while (choice != 6);
